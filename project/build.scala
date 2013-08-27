@@ -26,10 +26,11 @@ object build extends Build {
   }
 
   val publishSetting = publishTo <<= (version) { version: String =>
+    val nexus = "https://oss.sonatype.org/"
     if (version.trim.endsWith("SNAPSHOT"))
-      Some(Opts.resolver.sonatypeSnapshots)
+      Some("snapshots" at nexus + "content/repositories/snapshots")
     else
-      Some(Opts.resolver.sonatypeStaging)
+      Some("releases"  at nexus + "service/local/staging/deploy/maven2") 
   }
 
   val mavenCentralFrouFrou = Seq(
@@ -52,11 +53,11 @@ object build extends Build {
   )
 
   val json4sSettings = Defaults.defaultSettings ++ mavenCentralFrouFrou ++ Seq(
-    organization := "org.json4s",
-    scalaVersion := "2.10.0",
-    crossScalaVersions := Seq("2.10.0"),
+    organization := "com.gettyimages",
+    scalaVersion := "2.10.2",
+    crossScalaVersions := Seq("2.10.2"),
     scalacOptions ++= Seq("-unchecked", "-deprecation", "-optimize", "-feature", "-Yinline-warnings", "-language:existentials", "-language:implicitConversions", "-language:higherKinds", "-language:reflectiveCalls", "-language:postfixOps"),
-    version := "3.2.5",
+    version := "3.2.6-SNAPSHOT",
     javacOptions ++= Seq("-target", "1.6", "-source", "1.6"),
     manifestSetting,
     publishSetting,
